@@ -47,6 +47,10 @@
             android:name="com.outagereporter.utilitytracker.ReportActivity"
             android:label="@string/title_activity_report" >
         </activity>
+        <activity
+            android:name="com.outagereporter.utilitytracker.createReportActivity"
+            android:label="@string/title_activity_create_report" >
+        </activity>
     </application>
 
 </manifest>
