@@ -8,5 +8,18 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_report">ReportActivity</string>
     <string name="title_activity_create_report">createReportActivity</string>
+    <string-array name="outages_array">
+        <item>Internet</item>
+        <item>Electricity</item>
+        <item>Water</item>
+        <item>Gas</item>
+        <item>Phone</item>
+    </string-array>
+    <string name="internetFilterString">true</string>
+    <string name="electricityFilterString">true</string>
+    <string name="waterFilterString">true</string>
+    <string name="gasFilterString">true</string>
+    <string name="phoneFilterString">true</string>
+
 
 </resources>

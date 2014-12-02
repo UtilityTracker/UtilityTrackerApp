@@ -1,6 +1,7 @@
 package com.outagereporter.utilitytracker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,8 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationClient;
@@ -85,12 +88,26 @@ public class MapsActivity extends FragmentActivity {
 
         // Create instance of database manager
         outageDatabase db = new outageDatabase(this);
+
+
         // Add each array to the map by type
-        addArrayListOfMarkers(db.getInternetMarkers(), mMap);
-        addArrayListOfMarkers(db.getElectricityMarkers(), mMap);
-        addArrayListOfMarkers(db.getWaterMarkers(), mMap);
-        addArrayListOfMarkers(db.getGasMarkers(), mMap);
-        addArrayListOfMarkers(db.getPhoneMarkers(), mMap);
+        SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
+
+        if (settings.getBoolean("internetFilter", false)) {
+            addArrayListOfMarkers(db.getInternetMarkers(), mMap);
+        }
+        if (settings.getBoolean("electricityFilter", false)) {
+            addArrayListOfMarkers(db.getElectricityMarkers(), mMap);
+        }
+        if (settings.getBoolean("waterFilter", false)) {
+            addArrayListOfMarkers(db.getWaterMarkers(), mMap);
+        }
+        if (settings.getBoolean("gasFilter", false)) {
+            addArrayListOfMarkers(db.getGasMarkers(), mMap);
+        }
+        if (settings.getBoolean("phoneFilter", false)) {
+            addArrayListOfMarkers(db.getPhoneMarkers(), mMap);
+        }
     }
 
 
@@ -127,19 +144,7 @@ public class MapsActivity extends FragmentActivity {
             Log.d("Debug", "No Last Location Known!");
         }
 
-        // For now, add a marker to represent the LatLng found
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Last Known Location"));
-
-
-        // Create instance of database manager
-        outageDatabase db = new outageDatabase(this);
-        // Add each array to the map by type
-        addArrayListOfMarkers(db.getInternetMarkers(), mMap);
-        addArrayListOfMarkers(db.getElectricityMarkers(), mMap);
-        addArrayListOfMarkers(db.getWaterMarkers(), mMap);
-        addArrayListOfMarkers(db.getGasMarkers(), mMap);
-        addArrayListOfMarkers(db.getPhoneMarkers(), mMap);
-
+        resetMarkers();
 
     }
 
