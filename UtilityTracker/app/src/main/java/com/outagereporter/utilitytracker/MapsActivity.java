@@ -1,11 +1,16 @@
 package com.outagereporter.utilitytracker;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -17,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +78,9 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+
+        createDatabaseIfNeeded();
+
         // Starting by centering the map over the device's lat/long
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -105,34 +114,36 @@ public class MapsActivity extends FragmentActivity {
         // Make an array of markers as they're being added. Will be displayed later
         List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
 
-        double tempLat;
-        double tempLng;
+        SQLiteDatabase db = openOrCreateDatabase("UtilityTracker", Context.MODE_PRIVATE, null);
+        Cursor sqlQuery;
+        // COLUMN INDICES: [ outageID:0 , latitude:1 , longitude:2 , userID:3 , resolution:4 , startDateUTC:5 , resolutionDateUTC:6 ]
 
-        // Loop here to add all the markers to the array; First with just Internet, which are Azure Blue
-        for (int i = 0; i < 1; i++) {
-            tempLat = 33.212332;
-            tempLng = -87.545968;
-            markers.add(new MarkerOptions().position(new LatLng(tempLat, tempLng)).title("Internet").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        } // Pretend the following were also being added in the loop
-        tempLat = 33.210290;
-        tempLng = -87.544203;
-        markers.add(new MarkerOptions().position(new LatLng(tempLat, tempLng)).title("Internet").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        tempLat = 33.211019;
-        tempLng = -87.544149;
-        markers.add(new MarkerOptions().position(new LatLng(tempLat, tempLng)).title("Internet").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-        // Now Electricity - YELLOW
-        for (int i = 0; i < 1; i++) {
-            tempLat = 33.210893;
-            tempLng = -87.552912;
-            markers.add(new MarkerOptions().position(new LatLng(tempLat, tempLng)).title("Electricity").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        // INTERNET
+        sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Internet").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         }
-        tempLat = 33.210629;
-        tempLng = -87.552958;
-        markers.add(new MarkerOptions().position(new LatLng(tempLat, tempLng)).title("Electricity").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-        tempLat = 33.210787;
-        tempLng = -87.553564;
-        markers.add(new MarkerOptions().position(new LatLng(tempLat, tempLng)).title("Electricity").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        // ELECTRICITY
+        sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Electricity").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        }
+        // WATER
+        sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Water").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
+        // GAS
+        sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Gas").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        }
+        // PHONE
+        sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Phone").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+        }
+
 
 
 
@@ -141,6 +152,88 @@ public class MapsActivity extends FragmentActivity {
         for (int i = 0; i < markers.size(); i++) {
             mMap.addMarker(markers.get(i));
         }
+
+    }
+//Toast.makeText(getApplicationContext(), "TOAST MESSAGE", Toast.LENGTH_LONG).show();
+    private void createDatabaseIfNeeded() {
+
+        SQLiteDatabase db = openOrCreateDatabase("UtilityTracker", Context.MODE_PRIVATE, null);
+
+        Cursor sqlResult;
+
+        try { // This is a TERRIBLE way to tell whether or not the tables already exist. FIND ANOTHER WAY!
+            sqlResult = db.rawQuery("SELECT * FROM Electricity", null);
+            insertSampleData(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE THIS WHEN TESTING IS OVER
+            Toast.makeText(getApplicationContext(), "Tables Already Exist\nWiping and putting new data for data debugging", Toast.LENGTH_LONG).show();
+        }
+        catch (android.database.sqlite.SQLiteException e) {
+
+            if(e.getMessage().substring(0,13).equals("no such table")) {
+
+                try {
+                    db.execSQL("CREATE TABLE IF NOT EXISTS Internet(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+                    db.execSQL("CREATE TABLE IF NOT EXISTS Electricity(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+                    db.execSQL("CREATE TABLE IF NOT EXISTS Water(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+                    db.execSQL("CREATE TABLE IF NOT EXISTS Gas(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+                    db.execSQL("CREATE TABLE IF NOT EXISTS Phone(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+
+                    insertSampleData();  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE THIS WHEN TESTING IS OVER
+                }
+                catch (android.database.SQLException ex) {
+                    Toast.makeText(getApplicationContext(), ex.toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(getApplicationContext(), "Created Tables: Internet, Electricity, Water, Gas, Phone", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Log.d("Debug", "Unknown SQL Error found. " + e.toString());
+                return;
+            }
+        }
+    }
+
+    private void insertSampleData() {  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE THIS WHEN TESTING IS OVER
+        // DROP ALL DATA, ADD BACK FRESH
+        // COLUMN INDICES: [ outageID:0 , latitude:1 , longitude:2 , userID:3 , resolution:4 , startDateUTC:5 , resolutionDateUTC:6 ]
+
+        // INSERT ANY ADDITIONAL TEST PINS AT END OF EACH
+        SQLiteDatabase db = openOrCreateDatabase("UtilityTracker", Context.MODE_PRIVATE, null);
+
+        // INTERNET
+        db.execSQL("DROP TABLE Internet");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Internet(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+        db.execSQL("INSERT INTO Internet (latitude, longitude, userID, resolution, startDateUTC, resolutionDateUTC)" +
+                "   VALUES (33.212332, -87.545968, 1, 0, 1500, -1);");
+
+
+        // ELECTRICITY
+        db.execSQL("DROP TABLE Electricity");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Electricity(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+        db.execSQL("INSERT INTO Electricity (latitude, longitude, userID, resolution, startDateUTC, resolutionDateUTC)" +
+                "   VALUES (33.210290, -87.544203, 1, 0, 1500, -1);");
+
+
+        // WATER
+        db.execSQL("DROP TABLE Water");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Water(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+        db.execSQL("INSERT INTO Water (latitude, longitude, userID, resolution, startDateUTC, resolutionDateUTC)" +
+                "   VALUES (33.211019, -87.544149, 1, 0, 1500, -1);");
+
+
+        // GAS
+        db.execSQL("DROP TABLE Gas");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Gas(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+        db.execSQL("INSERT INTO Gas (latitude, longitude, userID, resolution, startDateUTC, resolutionDateUTC)" +
+                "   VALUES (33.210893, -87.552912, 1, 0, 1500, -1);");
+
+
+        // PHONE
+        db.execSQL("DROP TABLE Phone");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Phone(outageID INTEGER PRIMARY KEY ASC, latitude DOUBLE, longitude DOUBLE, userID INTEGER, resolution INTEGER, startDateUTC INTEGER, resolutionDateUTC INTEGER);");
+        db.execSQL("INSERT INTO Phone (latitude, longitude, userID, resolution, startDateUTC, resolutionDateUTC)" +
+                "   VALUES (33.210629, -87.552958, 1, 0, 1500, -1);");
+
 
     }
 }
