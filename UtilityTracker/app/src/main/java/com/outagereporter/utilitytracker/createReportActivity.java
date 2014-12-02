@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class createReportActivity extends Activity {
@@ -23,6 +24,17 @@ public class createReportActivity extends Activity {
                 finish();
             }
         });
+
+        // <TESTING INSERT COMMAND>
+        outageDatabase db = new outageDatabase(this);
+        boolean success = db.insertReport("Internet", 33.199676, -87.566474, 1);
+        if (success) {
+            Toast.makeText(getApplicationContext(), "Successfully Added Test Marker!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Test Marker Failed!", Toast.LENGTH_LONG).show();
+        }
+        // </TESTING INSERT COMMAND>
 
 
     }

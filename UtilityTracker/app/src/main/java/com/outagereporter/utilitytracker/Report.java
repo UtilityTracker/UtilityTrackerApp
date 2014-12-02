@@ -6,16 +6,23 @@ package com.outagereporter.utilitytracker;
 public class Report {
     public double lattitude;
     public double longitude;
-    public int type;
-    private String reportingUser;
+    public String type;
+    public int reportingUser;
+    public int resolved;
+    public int startDateUTC;
+    public int resolutionDateUTC;
+    public int typeSpecificUniqueID;
 
 
-    Report(double newLatitude, double newLongitude, String user, int newType){
+    Report(double newLatitude, double newLongitude, int user, String newType, int newResolved, int newStartDateUTC, int newresolutionDateUTC, int newTypeSpecificUniqueID){
         lattitude = newLatitude;
         longitude = newLongitude;
         type = newType;
         reportingUser = user;
-
+        resolved = newResolved;
+        startDateUTC = newStartDateUTC;
+        resolutionDateUTC = newresolutionDateUTC;
+        typeSpecificUniqueID = newTypeSpecificUniqueID;
 
     }
 

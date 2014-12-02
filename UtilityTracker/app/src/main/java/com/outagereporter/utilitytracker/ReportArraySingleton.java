@@ -13,7 +13,7 @@ public class ReportArraySingleton {
 
     private ReportArraySingleton(){
         reports = new ArrayList();
-        Report newReport = new Report(0.0,0.0,"",0);
+        Report newReport = new Report(0, 0, 0, "", 0, 0, 0, 0);
         reports.add(newReport);
         reports.add(newReport);
         reports.add(newReport);
