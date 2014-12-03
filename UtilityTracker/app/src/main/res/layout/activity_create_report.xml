@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/cancelButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/submitButton"
+        android:layout_toRightOf="@+id/latitudeLabel"
+        android:layout_toEndOf="@+id/latitudeLabel" />
 
     <Spinner
         android:id="@+id/outages_spinner"
@@ -31,51 +32,67 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textStyle="bold" />
 
-    <SeekBar
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/latitudeBar"
-        android:layout_centerVertical="true"
+        android:text="Location"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/outages_spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/longitudeBar"
-        android:layout_toStartOf="@+id/longitudeBar"
-        android:max="10000"
-        android:indeterminate="false" />
-
-    <android.widget.VerticalSeekBar
-        android:id="@+id/longitudeBar"
-        android:layout_width="wrap_content"
-        android:layout_height="350dp"
-        android:layout_marginBottom="100dp"
-        android:layout_marginRight="-100dp"
-        android:layout_alignBottom="@+id/cancelButton"
-        android:layout_alignRight="@+id/cancelButton"
-        android:max="10000"
-        android:indeterminate="false" />
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Latitude"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/latitudeBar"
-        android:layout_alignLeft="@+id/cancelButton"
-        android:layout_alignStart="@+id/cancelButton" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Longitude"
-        android:id="@+id/textView3"
-        android:layout_above="@+id/longitudeBar"
+        android:id="@+id/longitudeLabel"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latitude"
+        android:id="@+id/latitudeLabel"
+        android:layout_alignTop="@+id/longitudeLabel"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/longitudeTextField"
+        android:layout_below="@+id/longitudeLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/latitudeTextField"
+        android:layout_toStartOf="@+id/latitudeTextField" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/latitudeTextField"
+        android:layout_alignTop="@+id/longitudeTextField"
+        android:layout_alignLeft="@+id/latitudeLabel"
+        android:layout_alignStart="@+id/latitudeLabel"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="35dp"
-        android:layout_marginEnd="35dp" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/submitButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
 </RelativeLayout>

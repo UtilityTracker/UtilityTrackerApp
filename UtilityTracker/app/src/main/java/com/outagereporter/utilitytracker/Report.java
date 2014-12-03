@@ -25,5 +25,8 @@ public class Report {
         typeSpecificUniqueID = newTypeSpecificUniqueID;
 
     }
+    public void updateResolution(int newresolutionDateUTC){
+        resolutionDateUTC = newresolutionDateUTC;
+    }
 
 }

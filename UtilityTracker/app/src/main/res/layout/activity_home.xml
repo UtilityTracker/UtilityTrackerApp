@@ -19,6 +19,7 @@
         android:typeface="serif"
         android:password="false"
         android:phoneNumber="false"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:autoText="true" />
 
 </RelativeLayout>
