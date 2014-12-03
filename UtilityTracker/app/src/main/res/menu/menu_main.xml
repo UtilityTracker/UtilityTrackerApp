@@ -5,8 +5,7 @@
         android:showAsAction="ifRoom"
         tools:ignore="AppCompatResource" />
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+
 
     <item android:id="@+id/menuInternetFilter"
         android:titleCondensed="Internet"

@@ -234,7 +234,10 @@ public class MainActivity extends TabActivity {
                 // Commit the edits!
                 editor.commit();
             }
+
+
         }
+        MapNotificationCenterSingleton.getInstance().update();
 
         return super.onOptionsItemSelected(item);
     }

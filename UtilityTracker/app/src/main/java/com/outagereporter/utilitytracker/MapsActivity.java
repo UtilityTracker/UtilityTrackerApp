@@ -41,7 +41,9 @@ public class MapsActivity extends FragmentActivity {
         outageDatabase db = new outageDatabase(this);
         db.insertSampleData(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// REMOVE THIS WHEN TESTING IS OVER
         setContentView(R.layout.activity_maps);
+        MapNotificationCenterSingleton.getInstance().setMap(this);
         setUpMapIfNeeded();
+
     }
 
     @Override
@@ -81,7 +83,7 @@ public class MapsActivity extends FragmentActivity {
         }
     }
 
-    private void resetMarkers() { // This should be called less frequently. Preferably only on request, or on submission of a Report.
+    public void resetMarkers() { // This should be called less frequently. Preferably only on request, or on submission of a Report.
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Last Known Location"));
 
