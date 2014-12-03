@@ -7,13 +7,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.VerticalSeekBar;
 
 
 public class createReportActivity extends Activity {
 
     private Button cancelButton;
+    private SeekBar latitudeBar;
+    private VerticalSeekBar longitudeBar;
+    private Double currLatitude;
+    private Double currLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,35 @@ public class createReportActivity extends Activity {
                 finish();
             }
         });
+
+
+        latitudeBar = (SeekBar) findViewById(R.id.latitudeBar);
+        latitudeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            Double newLatitude;
+            Double percentage;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                percentage = (double) progress / (double) 100;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                if (percentage > 50) {
+                    newLatitude = (90 * (percentage/100));
+                }
+
+
+
+                Toast.makeText(getApplicationContext(), "Percentage: " + percentage, Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         Spinner spinner = (Spinner) findViewById(R.id.outages_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
