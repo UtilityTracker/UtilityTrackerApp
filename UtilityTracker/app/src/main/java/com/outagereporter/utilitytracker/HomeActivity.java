@@ -1,17 +1,53 @@
 package com.outagereporter.utilitytracker;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeActivity extends Activity {
+    private ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        listview = (ListView) findViewById(R.id.listView2);
+        outageDatabase database = new outageDatabase(this);
+        SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
+        ArrayList<Report> currentOutages = new ArrayList();
+
+        if (settings.getBoolean("internetFilter", false)) {
+            currentOutages.addAll(database.getInternetArray(true));
+
+        }
+        if (settings.getBoolean("electricityFilter", false)) {
+            currentOutages.addAll(database.getElectricityArray(true));
+        }
+        if (settings.getBoolean("waterFilter", false)) {
+            currentOutages.addAll(database.getWaterArray(true));
+        }
+        if (settings.getBoolean("gasFilter", false)) {
+            currentOutages.addAll(database.getGasArray(true));
+        }
+        if (settings.getBoolean("phoneFilter", false)) {
+            currentOutages.addAll(database.getPhoneArray(true));
+        }
+
+        ReportAdapter reportAdapter = new ReportAdapter(
+                this,
+                android.R.layout.simple_list_item_1,
+                currentOutages
+        );
+        listview.setAdapter(reportAdapter);
+
+
     }
 
 

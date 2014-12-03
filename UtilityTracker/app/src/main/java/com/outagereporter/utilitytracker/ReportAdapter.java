@@ -52,8 +52,8 @@ public class ReportAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(R.layout.listviewrow, parent, false);
 
         // 3. Get the two text view from the rowView
-        TextView labelView = (TextView) rowView.findViewById(R.id.label);
-        TextView valueView = (TextView) rowView.findViewById(R.id.value);
+        TextView labelView = (TextView) rowView.findViewById(R.id.Outage_type);
+        TextView valueView = (TextView) rowView.findViewById(R.id.Location);
 
         // 4. Set the text for textView
         labelView.setText(reportList.get(position).type);
