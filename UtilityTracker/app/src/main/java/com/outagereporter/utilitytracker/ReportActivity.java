@@ -1,6 +1,7 @@
 package com.outagereporter.utilitytracker;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,19 +13,44 @@ import java.util.ArrayList;
 
 public class ReportActivity extends Activity {
     private ListView reportlistview;
+    private outageDatabase database;
+    private ArrayList<Report> reportList;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
         reportlistview = (ListView) findViewById(R.id.listView);
+        MapNotificationCenterSingleton.getInstance().setReports(this);
+
+        database = new outageDatabase(this);
+        settings = getSharedPreferences("UtilityTrackerPreferences", 0);
         refreshList();
+
 
     }
 
 
     public void refreshList(){
-        ArrayList reportList = ReportArraySingleton.getInstance().getReports();
+
+        reportList = new ArrayList<>();
+        if (settings.getBoolean("internetFilter", false)) {
+            reportList.addAll(database.getInternetArray());
+        }
+        if (settings.getBoolean("electricityFilter", false)) {
+            reportList.addAll(database.getElectricityArray());
+        }
+        if (settings.getBoolean("waterFilter", false)) {
+            reportList.addAll(database.getWaterArray());
+        }
+        if (settings.getBoolean("gasFilter", false)) {
+            reportList.addAll(database.getGasArray());
+        }
+        if (settings.getBoolean("phoneFilter", false)) {
+            reportList.addAll(database.getPhoneArray());
+        }
+
 
         ArrayAdapter<Report> arrayAdapter = new ArrayAdapter<Report>(
                 this,
@@ -32,6 +58,7 @@ public class ReportActivity extends Activity {
                 reportList
         );
         reportlistview.setAdapter(arrayAdapter);
+
 
 
     }

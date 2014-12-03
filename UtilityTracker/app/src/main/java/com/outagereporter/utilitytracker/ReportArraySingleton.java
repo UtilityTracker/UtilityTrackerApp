@@ -12,25 +12,8 @@ public class ReportArraySingleton {
     private ArrayList reports;
 
     private ReportArraySingleton(){
+
         reports = new ArrayList();
-        Report newReport = new Report(0, 0, 0, "", 0, 0, 0, 0);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-        reports.add(newReport);
-
-
 
     }
 
@@ -44,7 +27,7 @@ public class ReportArraySingleton {
         return this.reports;
     }
     public void addReport(Report report){
-        reports.add(report);
+
     }
 
 }
