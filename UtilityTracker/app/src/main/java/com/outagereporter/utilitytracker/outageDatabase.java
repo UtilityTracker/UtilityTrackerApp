@@ -275,7 +275,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Internet WHERE userID = " + userID, null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Internet", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Internet", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getInt(0)));
         }
         return reports;
     }
