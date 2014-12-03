@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import java.util.Random;
+
 
 public class MainActivity extends TabActivity {
 
@@ -27,7 +29,7 @@ public class MainActivity extends TabActivity {
         Intent reportIntent = new Intent().setClass(this, ReportActivity.class);
         TabHost.TabSpec mapspec = tabHost.newTabSpec("Map").setIndicator("Map", null).setContent(mapsIntent);
         TabHost.TabSpec homespec = tabHost.newTabSpec("Home").setIndicator("Home", null).setContent(homeIntent);
-        TabHost.TabSpec reportspec = tabHost.newTabSpec("Reports").setIndicator("Reports", null).setContent(reportIntent);
+        TabHost.TabSpec reportspec = tabHost.newTabSpec("Reports").setIndicator("My Reports", null).setContent(reportIntent);
         tabHost.addTab(homespec);
         tabHost.addTab(mapspec);
         tabHost.addTab(reportspec);
@@ -40,7 +42,6 @@ public class MainActivity extends TabActivity {
         SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
 
         if (!settings.contains("internetFilter")) {
-            Toast.makeText(getApplicationContext(), "internetFilter not found", Toast.LENGTH_LONG).show();
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("internetFilter", true);
             editor.putBoolean("electricityFilter", true);
@@ -48,8 +49,19 @@ public class MainActivity extends TabActivity {
             editor.putBoolean("gasFilter", true);
             editor.putBoolean("phoneFilter", true);
 
-            // Commit the edits!
+            // CREATE NEW USERID
+            Random numberGenerator = new Random();
+            int randomNumber = numberGenerator.nextInt((99999 - 10000) + 1) + 10000;
+            editor.putInt("userID", randomNumber);
+
+            Toast.makeText(getApplicationContext(), "New UserID: " + randomNumber, Toast.LENGTH_LONG).show();
+
             editor.commit();
+
+            // Wipe DB and replace with default data
+            outageDatabase db = new outageDatabase(this);
+            db.insertSampleData();
+
         }
 
         return;

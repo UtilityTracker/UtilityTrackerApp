@@ -80,50 +80,165 @@ public class outageDatabase {
 
 
     public ArrayList<MarkerOptions> getInternetMarkers() {
+        return getInternetMarkers(-1);
+    }
+    public ArrayList<MarkerOptions> getInternetMarkers(int userID) {
         ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
         Cursor sqlQuery;
         // INTERNET
-        sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet WHERE userID = " + userID, null);
+        }
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Internet").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        }
+        return markers;
+    }
+    public ArrayList<MarkerOptions> getInternetMarkers(boolean unresolvedOnly) {
+        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        Cursor sqlQuery;
+        // INTERNET
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        }
         while (sqlQuery.moveToNext()) {
             markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Internet").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         }
         return markers;
     }
     public ArrayList<MarkerOptions> getElectricityMarkers() {
+        return getElectricityMarkers(-1);
+    }
+    public ArrayList<MarkerOptions> getElectricityMarkers(int userID) {
         ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
         Cursor sqlQuery;
         // ELECTRICITY
-        sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity WHERE userID = " + userID, null);
+        }
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Electricity").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        }
+        return markers;
+    }
+    public ArrayList<MarkerOptions> getElectricityMarkers(boolean unresolvedOnly) {
+        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        Cursor sqlQuery;
+        // ELECTRICITY
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        }
         while (sqlQuery.moveToNext()) {
             markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Electricity").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         }
         return markers;
     }
     public ArrayList<MarkerOptions> getWaterMarkers() {
+        return getWaterMarkers(-1);
+    }
+    public ArrayList<MarkerOptions> getWaterMarkers(int userID) {
         ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
         Cursor sqlQuery;
         // WATER
-        sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Water WHERE userID = " + userID, null);
+        }
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Water").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
+        return markers;
+    }
+    public ArrayList<MarkerOptions> getWaterMarkers(boolean unresolvedOnly) {
+        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        Cursor sqlQuery;
+        // WATER
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Water WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        }
         while (sqlQuery.moveToNext()) {
             markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Water").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
         return markers;
     }
     public ArrayList<MarkerOptions> getGasMarkers() {
+        return getGasMarkers(-1);
+    }
+    public ArrayList<MarkerOptions> getGasMarkers(int userID) {
         ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
         Cursor sqlQuery;
         // GAS
-        sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas WHERE userID = " + userID, null);
+        }
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Gas").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        }
+        return markers;
+    }
+    public ArrayList<MarkerOptions> getGasMarkers(boolean unresolvedOnly) {
+        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        Cursor sqlQuery;
+        // GAS
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        }
         while (sqlQuery.moveToNext()) {
             markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Gas").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
         return markers;
     }
     public ArrayList<MarkerOptions> getPhoneMarkers() {
+        return getPhoneMarkers(-1);
+    }
+    public ArrayList<MarkerOptions> getPhoneMarkers(int userID) {
         ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
         Cursor sqlQuery;
         // PHONE
-        sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone WHERE userID = " + userID, null);
+        }
+        while (sqlQuery.moveToNext()) {
+            markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Phone").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+        }
+        return markers;
+    }
+    public ArrayList<MarkerOptions> getPhoneMarkers(boolean resolvedOnly) {
+        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        Cursor sqlQuery;
+        // PHONE
+        if (resolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        }
         while (sqlQuery.moveToNext()) {
             markers.add(new MarkerOptions().position(new LatLng(sqlQuery.getDouble(1), sqlQuery.getDouble(2))).title("Phone").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
         }
@@ -132,50 +247,165 @@ public class outageDatabase {
 
 
     public ArrayList<Report> getInternetArray() {
+        return getInternetArray(false);
+    }
+    public ArrayList<Report> getInternetArray(boolean unresolvedOnly) {
         ArrayList<Report> reports = new ArrayList<Report>();
         Cursor sqlQuery;
         // INTERNET
-        sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        }
+        while (sqlQuery.moveToNext()) {
+            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Internet", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+        }
+        return reports;
+    }
+    public ArrayList<Report> getInternetArray(int userID) {
+        ArrayList<Report> reports = new ArrayList<Report>();
+        Cursor sqlQuery;
+        // INTERNET
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Internet WHERE userID = " + userID, null);
+        }
         while (sqlQuery.moveToNext()) {
             reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Internet", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
         }
         return reports;
     }
     public ArrayList<Report> getElectricityArray() {
+        return getElectricityArray(false);
+    }
+    public ArrayList<Report> getElectricityArray(boolean unresolvedOnly) {
         ArrayList<Report> reports = new ArrayList<Report>();
         Cursor sqlQuery;
         // INTERNET
-        sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        }
+        while (sqlQuery.moveToNext()) {
+            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Electricity", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+        }
+        return reports;
+    }
+    public ArrayList<Report> getElectricityArray(int userID) {
+        ArrayList<Report> reports = new ArrayList<Report>();
+        Cursor sqlQuery;
+        // INTERNET
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Electricity WHERE userID = " + userID, null);
+        }
         while (sqlQuery.moveToNext()) {
             reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Electricity", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
         }
         return reports;
     }
     public ArrayList<Report> getWaterArray() {
+        return getWaterArray(false);
+    }
+    public ArrayList<Report> getWaterArray(boolean unresolvedOnly) {
         ArrayList<Report> reports = new ArrayList<Report>();
         Cursor sqlQuery;
         // INTERNET
-        sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Water WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        }
+        while (sqlQuery.moveToNext()) {
+            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Water", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+        }
+        return reports;
+    }
+    public ArrayList<Report> getWaterArray(int userID) {
+        ArrayList<Report> reports = new ArrayList<Report>();
+        Cursor sqlQuery;
+        // INTERNET
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Water", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Water WHERE userID = " + userID, null);
+        }
         while (sqlQuery.moveToNext()) {
             reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Water", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
         }
         return reports;
     }
     public ArrayList<Report> getGasArray() {
+        return getGasArray(false);
+    }
+    public ArrayList<Report> getGasArray(boolean unresolvedOnly) {
         ArrayList<Report> reports = new ArrayList<Report>();
         Cursor sqlQuery;
         // INTERNET
-        sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        }
+        while (sqlQuery.moveToNext()) {
+            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Gas", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+        }
+        return reports;
+    }
+    public ArrayList<Report> getGasArray(int userID) {
+        ArrayList<Report> reports = new ArrayList<Report>();
+        Cursor sqlQuery;
+        // INTERNET
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Gas WHERE userID = " + userID, null);
+        }
         while (sqlQuery.moveToNext()) {
             reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Gas", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
         }
         return reports;
     }
     public ArrayList<Report> getPhoneArray() {
+        return getPhoneArray(false);
+    }
+    public ArrayList<Report> getPhoneArray(boolean unresolvedOnly) {
         ArrayList<Report> reports = new ArrayList<Report>();
         Cursor sqlQuery;
         // INTERNET
-        sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        if (unresolvedOnly) {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone WHERE resolution = 0", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        }
+        while (sqlQuery.moveToNext()) {
+            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Phone", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+        }
+        return reports;
+    }
+    public ArrayList<Report> getPhoneArray(int userID) {
+        ArrayList<Report> reports = new ArrayList<Report>();
+        Cursor sqlQuery;
+        // INTERNET
+        if (userID == -1) {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
+        }
+        else {
+            sqlQuery = db.rawQuery("SELECT * FROM Phone WHERE userID = " + userID, null);
+        }
         while (sqlQuery.moveToNext()) {
             reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Phone", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
         }

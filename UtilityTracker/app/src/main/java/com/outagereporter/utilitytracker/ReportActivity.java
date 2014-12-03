@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,29 +37,43 @@ public class ReportActivity extends Activity {
 
         reportList = new ArrayList<>();
         if (settings.getBoolean("internetFilter", false)) {
-            reportList.addAll(database.getInternetArray());
+            reportList.addAll(database.getInternetArray(settings.getInt("userID", -1)));
         }
         if (settings.getBoolean("electricityFilter", false)) {
-            reportList.addAll(database.getElectricityArray());
+            reportList.addAll(database.getElectricityArray(settings.getInt("userID", -1)));
         }
         if (settings.getBoolean("waterFilter", false)) {
-            reportList.addAll(database.getWaterArray());
+            reportList.addAll(database.getWaterArray(settings.getInt("userID", -1)));
         }
         if (settings.getBoolean("gasFilter", false)) {
-            reportList.addAll(database.getGasArray());
+            reportList.addAll(database.getGasArray(settings.getInt("userID", -1)));
         }
         if (settings.getBoolean("phoneFilter", false)) {
-            reportList.addAll(database.getPhoneArray());
+            reportList.addAll(database.getPhoneArray(settings.getInt("userID", -1)));
         }
-
 
         ArrayAdapter<Report> arrayAdapter = new ArrayAdapter<Report>(
                 this,
                 android.R.layout.simple_list_item_1,
                 reportList
         );
-        reportlistview.setAdapter(arrayAdapter);
 
+
+        ArrayList<String> typesArray = new ArrayList<String>();
+        for (int i = 0; i < reportList.size(); i++) {
+            typesArray.add(reportList.get(i).type);
+        }
+
+        ArrayAdapter<Report> typesArrayAdapter = new ArrayAdapter<Report>(
+                this,
+                android.R.layout.simple_list_item_1,
+                reportList
+        );
+
+
+        //reportlistview.setAdapter(arrayAdapter);
+
+        reportlistview.setAdapter(typesArrayAdapter);
 
 
     }
