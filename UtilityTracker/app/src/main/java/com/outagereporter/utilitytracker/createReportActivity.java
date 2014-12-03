@@ -2,6 +2,7 @@ package com.outagereporter.utilitytracker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -56,9 +57,14 @@ public class createReportActivity extends Activity {
         if (location == null) {
             location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
-        currLatitude = location.getLatitude();
-        currLongitude = location.getLongitude();
-
+        if (location != null) {
+            currLatitude = location.getLatitude();
+            currLongitude = location.getLongitude();
+        }
+        else {
+            currLatitude = (double) 0;
+            currLongitude = (double) 0;
+        }
 
         longitudeText.setText(currLongitude.toString(), null);
         latitudeText.setText(currLatitude.toString(), null);
@@ -67,7 +73,7 @@ public class createReportActivity extends Activity {
 
 
 
-        // <TESTING INSERT COMMAND>
+        /*// <TESTING INSERT COMMAND>
 
         boolean success = database.insertReport("Internet", 33.199676, -87.566474, 1);
         if (success) {
@@ -76,8 +82,11 @@ public class createReportActivity extends Activity {
         else {
             Toast.makeText(getApplicationContext(), "Test Marker Failed!", Toast.LENGTH_LONG).show();
         }
+        // </TESTING INSERT COMMAND>*/
+
+
         setupButtons();
-        // </TESTING INSERT COMMAND>
+
 
 
     }
@@ -89,15 +98,19 @@ public class createReportActivity extends Activity {
                 String latitude = latitudeText.getText().toString();
                 String longitude = longitudeText.getText().toString();
 
+                SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
+                int userID = settings.getInt("userID", -1);
 
 
 
-
-                boolean success = database.insertReport(spinner.getSelectedItem().toString(),Double.parseDouble(latitude), Double.parseDouble(longitude),500 );
+                boolean success = database.insertReport(spinner.getSelectedItem().toString(),Double.parseDouble(latitude), Double.parseDouble(longitude), userID );
                 if(success){
                     //Toast.makeText(getApplicationContext(), spinner.getSelectedItem().toString() + " "+latitude +" " +longitude, Toast.LENGTH_LONG).show();
                     MapNotificationCenterSingleton.getInstance().update();
                     finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "FAILED!: " + spinner.getSelectedItem().toString() + " "+latitude +" " +longitude, Toast.LENGTH_LONG).show();
                 }
 
 
