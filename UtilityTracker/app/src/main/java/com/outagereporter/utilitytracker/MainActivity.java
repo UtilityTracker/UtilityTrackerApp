@@ -12,7 +12,7 @@ import android.widget.CheckBox;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-
+import java.util.Random;
 public class MainActivity extends TabActivity {
 
 
@@ -48,8 +48,16 @@ public class MainActivity extends TabActivity {
             editor.putBoolean("gasFilter", true);
             editor.putBoolean("phoneFilter", true);
 
+            Random numberGenerator = new Random();
+             int randomNumber = numberGenerator.nextInt((99999-10000)+1)+10000;
+            editor.putInt("userID", randomNumber);
+
+
             // Commit the edits!
             editor.commit();
+
+            outageDatabase db = new outageDatabase(this);
+            db.insertSampleData();
         }
 
         return;
