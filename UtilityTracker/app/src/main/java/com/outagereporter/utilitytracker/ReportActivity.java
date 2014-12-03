@@ -52,12 +52,12 @@ public class ReportActivity extends Activity {
         }
 
 
-        ArrayAdapter<Report> arrayAdapter = new ArrayAdapter<Report>(
+        ReportAdapter reportAdapter = new ReportAdapter(
                 this,
                 android.R.layout.simple_list_item_1,
                 reportList
         );
-        reportlistview.setAdapter(arrayAdapter);
+        reportlistview.setAdapter(reportAdapter);
 
 
 

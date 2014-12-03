@@ -27,7 +27,7 @@ public class MainActivity extends TabActivity {
         Intent reportIntent = new Intent().setClass(this, ReportActivity.class);
         TabHost.TabSpec mapspec = tabHost.newTabSpec("Map").setIndicator("Map", null).setContent(mapsIntent);
         TabHost.TabSpec homespec = tabHost.newTabSpec("Home").setIndicator("Home", null).setContent(homeIntent);
-        TabHost.TabSpec reportspec = tabHost.newTabSpec("Reports").setIndicator("Reports", null).setContent(reportIntent);
+        TabHost.TabSpec reportspec = tabHost.newTabSpec("My Reports").setIndicator("My Reports", null).setContent(reportIntent);
         tabHost.addTab(homespec);
         tabHost.addTab(mapspec);
         tabHost.addTab(reportspec);
