@@ -21,11 +21,13 @@ public class ReportAdapter extends ArrayAdapter {
 
     private final Context context;
     private ArrayList<Report> reportList;
+    private Geocoder geocoder;
     private static LayoutInflater inflater = null;
 
     public ReportAdapter (Context context, int textViewResourceId, ArrayList<Report> _reportList){
         super(context, textViewResourceId, _reportList);
         this.context = context;
+        geocoder = GeocoderSingleton.getInstance(context).getGeocoder();
         try{
 
             this.reportList = _reportList;
@@ -63,7 +65,7 @@ public class ReportAdapter extends ArrayAdapter {
 
 
 
-        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+
 
         List<Address> addresses = null;
 
@@ -77,12 +79,13 @@ public class ReportAdapter extends ArrayAdapter {
 
 
         // 4. Set the text for textView
-        labelView.setText(reportList.get(position).type);
+
         if(addresses != null){
             valueView.setText(addresses.get(0).getAddressLine(0) + " " + addresses.get(0).getAddressLine(1));
         }
 
 
+        labelView.setText(reportList.get(position).type);
         // 5. retrn rowView
         return rowView;
     }
