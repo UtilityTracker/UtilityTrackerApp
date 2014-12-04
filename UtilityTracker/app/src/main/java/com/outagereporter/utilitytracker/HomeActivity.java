@@ -1,10 +1,14 @@
 package com.outagereporter.utilitytracker;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -13,15 +17,21 @@ import java.util.List;
 
 public class HomeActivity extends Activity {
     private ListView listview;
+    private Context reportActivityContext;
+    private ArrayList<Report> currentOutages;
+    private SharedPreferences settings;
+    private outageDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        MapNotificationCenterSingleton.getInstance().setHome(this);
         listview = (ListView) findViewById(R.id.listView2);
-        outageDatabase database = new outageDatabase(this);
-        SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
-        ArrayList<Report> currentOutages = new ArrayList();
+        database = new outageDatabase(this);
+        settings = getSharedPreferences("UtilityTrackerPreferences", 0);
+        currentOutages = new ArrayList();
+        reportActivityContext = this;
 
         if (settings.getBoolean("internetFilter", false)) {
             currentOutages.addAll(database.getInternetArray(true));
@@ -46,10 +56,46 @@ public class HomeActivity extends Activity {
                 currentOutages
         );
         listview.setAdapter(reportAdapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Report reportToOpen = (Report) parent.getAdapter().getItem((int) id);
+                Intent intent = new Intent().setClass(reportActivityContext, editReportActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("outageID", reportToOpen.typeSpecificUniqueID);
+                b.putString("tableToSearch", reportToOpen.type);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
 
     }
+    public void refreshList(){
+        currentOutages = new ArrayList();
+        if (settings.getBoolean("internetFilter", false)) {
+            currentOutages.addAll(database.getInternetArray(true));
 
+        }
+        if (settings.getBoolean("electricityFilter", false)) {
+            currentOutages.addAll(database.getElectricityArray(true));
+        }
+        if (settings.getBoolean("waterFilter", false)) {
+            currentOutages.addAll(database.getWaterArray(true));
+        }
+        if (settings.getBoolean("gasFilter", false)) {
+            currentOutages.addAll(database.getGasArray(true));
+        }
+        if (settings.getBoolean("phoneFilter", false)) {
+            currentOutages.addAll(database.getPhoneArray(true));
+        }
+
+        ReportAdapter reportAdapter = new ReportAdapter(
+                this,
+                android.R.layout.simple_list_item_1,
+                currentOutages
+        );
+        listview.setAdapter(reportAdapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

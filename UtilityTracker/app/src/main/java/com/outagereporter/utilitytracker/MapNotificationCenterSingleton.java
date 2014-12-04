@@ -6,6 +6,7 @@ package com.outagereporter.utilitytracker;
 public class MapNotificationCenterSingleton {
     private MapsActivity map;
     private ReportActivity reports;
+    private HomeActivity home;
 
     private static MapNotificationCenterSingleton instance = null;
     private MapNotificationCenterSingleton(){
@@ -25,12 +26,16 @@ public class MapNotificationCenterSingleton {
     public void setReports(ReportActivity newreport){
         reports = newreport;
     }
+    public void setHome (HomeActivity newhome){ home = newhome;}
     public void  update(){
         if(map != null) {
             map.resetMarkers();
         }
         if(reports != null){
             reports.refreshList();
+        }
+        if(home != null){
+            home.refreshList();
         }
     }
 }
