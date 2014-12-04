@@ -68,14 +68,14 @@ public class outageDatabase {
                     return;
                 }
 
-                Toast.makeText(context.getApplicationContext(), "Created Tables: Internet, Electricity, Water, Gas, Phone", Toast.LENGTH_LONG).show();
+
             }
             else {
                 Log.d("Debug", "Unknown SQL Error found. " + e.toString());
                 return;
             }
         }
-        MapNotificationCenterSingleton.getInstance().update();
+        //MapNotificationCenterSingleton.getInstance().update();
     }
 
 
@@ -462,7 +462,7 @@ public class outageDatabase {
         if (tableToSearch.equals(outageToUpdate.type)){
             Cursor sqlQuery;
             try {
-                Toast.makeText(context, "resolution: " + outageToUpdate.resolved, Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "resolution: " + outageToUpdate.resolved, Toast.LENGTH_LONG).show();
                 db.execSQL("UPDATE " + tableToSearch + " SET latitude=" + outageToUpdate.lattitude + ", longitude=" + outageToUpdate.longitude + ", resolution=" + outageToUpdate.resolved + ", resolutionDateUTC=" + outageToUpdate.resolutionDateUTC + " WHERE outageID = " + outageToUpdate.typeSpecificUniqueID);
                 return true;
             } catch (android.database.sqlite.SQLiteException e) {

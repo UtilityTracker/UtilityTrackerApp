@@ -140,7 +140,7 @@ public class editReportActivity extends Activity {
 
                 boolean success = database.updateReport(tableToSearch, outageToEdit);
                 if(success){
-                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
                     MapNotificationCenterSingleton.getInstance().update();
                     finish();
                 }

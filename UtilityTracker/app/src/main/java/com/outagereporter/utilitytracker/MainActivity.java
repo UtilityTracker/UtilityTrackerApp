@@ -37,6 +37,8 @@ public class MainActivity extends TabActivity {
         }
         //
 
+        createSharedPrefsIfNeeded();
+
         TabHost tabHost = getTabHost();
 
         Intent homeIntent = new Intent().setClass(this, HomeActivity.class);
@@ -49,7 +51,7 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(mapspec);
         tabHost.addTab(reportspec);
 
-        createSharedPrefsIfNeeded();
+
 
     }
 
@@ -57,7 +59,7 @@ public class MainActivity extends TabActivity {
         SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
 
         if (!settings.contains("internetFilter")) {
-            Toast.makeText(getApplicationContext(), "internetFilter not found", Toast.LENGTH_LONG).show();
+
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("internetFilter", true);
             editor.putBoolean("electricityFilter", true);

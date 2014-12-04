@@ -131,19 +131,19 @@ public class MapsActivity extends FragmentActivity {
         SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
 
         if (settings.getBoolean("internetFilter", false)) {
-            addArrayListOfMarkers(db.getInternetMarkers(), mMap);
+            addArrayListOfMarkers(db.getInternetMarkers(true), mMap);
         }
         if (settings.getBoolean("electricityFilter", false)) {
-            addArrayListOfMarkers(db.getElectricityMarkers(), mMap);
+            addArrayListOfMarkers(db.getElectricityMarkers(true), mMap);
         }
         if (settings.getBoolean("waterFilter", false)) {
-            addArrayListOfMarkers(db.getWaterMarkers(), mMap);
+            addArrayListOfMarkers(db.getWaterMarkers(true), mMap);
         }
         if (settings.getBoolean("gasFilter", false)) {
-            addArrayListOfMarkers(db.getGasMarkers(), mMap);
+            addArrayListOfMarkers(db.getGasMarkers(true), mMap);
         }
         if (settings.getBoolean("phoneFilter", false)) {
-            addArrayListOfMarkers(db.getPhoneMarkers(), mMap);
+            addArrayListOfMarkers(db.getPhoneMarkers(true), mMap);
         }
     }
 
