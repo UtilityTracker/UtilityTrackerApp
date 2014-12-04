@@ -8,6 +8,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_report">ReportActivity</string>
     <string name="title_activity_create_report">createReportActivity</string>
+    <string name="title_activity_edit_report">editReportActivity</string>
     <string-array name="outages_array">
         <item>Internet</item>
         <item>Electricity</item>

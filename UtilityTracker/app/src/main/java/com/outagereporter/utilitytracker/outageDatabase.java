@@ -260,7 +260,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Internet", null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Internet", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Internet", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -275,7 +275,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Internet WHERE userID = " + userID, null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Internet", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getInt(0)));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Internet", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -293,7 +293,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Electricity", null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Electricity", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Electricity", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -308,7 +308,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Electricity WHERE userID = " + userID, null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Electricity", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Electricity", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -326,7 +326,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Water", null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Water", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Water", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -341,7 +341,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Water WHERE userID = " + userID, null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Water", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Water", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -359,7 +359,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Gas", null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Gas", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Gas", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -374,7 +374,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Gas WHERE userID = " + userID, null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Gas", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Gas", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -392,7 +392,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Phone", null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Phone", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Phone", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -407,7 +407,7 @@ public class outageDatabase {
             sqlQuery = db.rawQuery("SELECT * FROM Phone WHERE userID = " + userID, null);
         }
         while (sqlQuery.moveToNext()) {
-            reports.add(new Report(sqlQuery.getColumnIndex("latitude"), sqlQuery.getColumnIndex("longitude"), sqlQuery.getColumnIndex("userID"), "Phone", sqlQuery.getColumnIndex("resolution"), sqlQuery.getColumnIndex("startDateUTC"), sqlQuery.getColumnIndex("resolutionDateUTC"), sqlQuery.getColumnIndex("outageID")));
+            reports.add(new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), "Phone", sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0)));
         }
         return reports;
     }
@@ -444,7 +444,58 @@ public class outageDatabase {
         return true;
     }
 
+    public Report getReport(String tableToSearch, int outageID) {
+        Cursor sqlQuery;
+        try {
+            sqlQuery = db.rawQuery("SELECT * FROM " + tableToSearch + " WHERE outageID = " + outageID, null);
+            sqlQuery.moveToFirst();
+            return new Report(sqlQuery.getDouble(1), sqlQuery.getDouble(2), sqlQuery.getInt(3), tableToSearch, sqlQuery.getInt(4), sqlQuery.getInt(5), sqlQuery.getInt(6), sqlQuery.getInt(0));
+        }
+        catch (android.database.sqlite.SQLiteException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public boolean updateReport(String tableToSearch, Report outageToUpdate) {
+        if (tableToSearch.equals(outageToUpdate.type)){
+            Cursor sqlQuery;
+            try {
+                Toast.makeText(context, "resolution: " + outageToUpdate.resolved, Toast.LENGTH_LONG).show();
+                db.execSQL("UPDATE " + tableToSearch + " SET latitude=" + outageToUpdate.lattitude + ", longitude=" + outageToUpdate.longitude + ", resolution=" + outageToUpdate.resolved + ", resolutionDateUTC=" + outageToUpdate.resolutionDateUTC + " WHERE outageID = " + outageToUpdate.typeSpecificUniqueID);
+                return true;
+            } catch (android.database.sqlite.SQLiteException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        else {
+            Cursor sqlQuery;
+            try {
+                db.execSQL("DELETE FROM " + tableToSearch + " WHERE outageID = " + outageToUpdate.typeSpecificUniqueID);
+                insertReport(outageToUpdate.type, outageToUpdate.lattitude, outageToUpdate.longitude, outageToUpdate.reportingUser);
+                updateReport(outageToUpdate.type, outageToUpdate);
+                return true;
+            } catch (android.database.sqlite.SQLiteException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+
+    public boolean deleteReport(String tableToSearch, Report outageToUpdate) {
+
+        Cursor sqlQuery;
+        try {
+            db.execSQL("DELETE FROM " + tableToSearch + " WHERE outageID = " + outageToUpdate.typeSpecificUniqueID);
+            return true;
+        } catch (android.database.sqlite.SQLiteException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
 
 
 
@@ -491,5 +542,6 @@ public class outageDatabase {
 
 
     }
+
 
 }

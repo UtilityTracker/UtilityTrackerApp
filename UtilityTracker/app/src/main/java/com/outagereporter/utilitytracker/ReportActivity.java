@@ -1,6 +1,7 @@
 package com.outagereporter.utilitytracker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,10 +22,12 @@ public class ReportActivity extends Activity {
     private outageDatabase database;
     private ArrayList<Report> reportList;
     private SharedPreferences settings;
+    private Context reportActivityContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        reportActivityContext = this;
         setContentView(R.layout.activity_report);
         reportlistview = (ListView) findViewById(R.id.listView);
         MapNotificationCenterSingleton.getInstance().setReports(this);
@@ -65,15 +68,19 @@ public class ReportActivity extends Activity {
         );
         reportlistview.setAdapter(reportAdapter);
 
-        //Intent intent = new Intent().setClass(this, createReportActivity.class);
-        //startActivity(intent);
+
 
 
 
         reportlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Report reportToOpen = (Report) parent.getAdapter().getItem((int) id);
-                Toast.makeText(getApplicationContext(), "Selected type: " + reportToOpen.typeSpecificUniqueID + "  t: " + reportToOpen.type, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent().setClass(reportActivityContext, editReportActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("outageID", reportToOpen.typeSpecificUniqueID);
+                b.putString("tableToSearch", reportToOpen.type);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
 
