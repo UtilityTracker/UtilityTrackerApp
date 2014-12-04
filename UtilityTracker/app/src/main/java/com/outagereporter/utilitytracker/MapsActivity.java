@@ -44,6 +44,7 @@ public class MapsActivity extends FragmentActivity {
         MapNotificationCenterSingleton.getInstance().setMap(this);
         setUpMapIfNeeded();
 
+
     }
 
     @Override

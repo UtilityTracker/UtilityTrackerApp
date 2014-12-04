@@ -2,6 +2,8 @@ package com.outagereporter.utilitytracker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Miles on 12/3/2014.
@@ -55,9 +59,25 @@ public class ReportAdapter extends ArrayAdapter {
         TextView labelView = (TextView) rowView.findViewById(R.id.Outage_type);
         TextView valueView = (TextView) rowView.findViewById(R.id.Location);
 
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(reportList.get(position).lattitude, reportList.get(position).longitude, 1);
+        }
+        catch (Exception e){
+
+        }
+
+
+
         // 4. Set the text for textView
         labelView.setText(reportList.get(position).type);
-        valueView.setText(reportList.get(position).lattitude + "" + reportList.get(position).longitude);
+        if(addresses != null){
+            valueView.setText(addresses.get(0).getAddressLine(0) + " " + addresses.get(0).getAddressLine(1));
+        }
+
 
         // 5. retrn rowView
         return rowView;
