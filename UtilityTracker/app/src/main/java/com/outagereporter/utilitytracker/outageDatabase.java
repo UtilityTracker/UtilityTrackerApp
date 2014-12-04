@@ -75,7 +75,6 @@ public class outageDatabase {
                 return;
             }
         }
-        MapNotificationCenterSingleton.getInstance().update();
     }
 
 
