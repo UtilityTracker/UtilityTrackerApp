@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.Random;
 public class MainActivity extends TabActivity {
 
+    public Intent mapsIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class MainActivity extends TabActivity {
         TabHost tabHost = getTabHost();
 
         Intent homeIntent = new Intent().setClass(this, HomeActivity.class);
-        Intent mapsIntent = new Intent().setClass(this, MapsActivity.class);
+        mapsIntent = new Intent().setClass(this, MapsActivity.class);
         Intent reportIntent = new Intent().setClass(this, ReportActivity.class);
         TabHost.TabSpec mapspec = tabHost.newTabSpec("Map").setIndicator("Map", null).setContent(mapsIntent);
         TabHost.TabSpec homespec = tabHost.newTabSpec("Home").setIndicator("Home", null).setContent(homeIntent);

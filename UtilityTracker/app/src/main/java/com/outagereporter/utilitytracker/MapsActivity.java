@@ -45,12 +45,46 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
 
 
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+
+
+
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null) {
+            location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+        double latitude = getIntent().getDoubleExtra("latitude", 0);
+        double longitude = getIntent().getDoubleExtra("longitude", 0);
+        if (latitude == 0 && longitude == 0 && location != null) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+
+            // Make LatLng object to represent the found lat and long doubles
+            LatLng currentLatLng;
+            currentLatLng = new LatLng(latitude, longitude);
+            // Make CameraUpdate object to represent the movement of the camera to LatLng and zoom of 12-ish [2.0 - 21.0](Lowest to Highest Zoom).
+            CameraUpdate update;
+            update = CameraUpdateFactory.newLatLngZoom(currentLatLng, 12);
+            // Move mMap's camera to the CameraUpdate object's settings
+            mMap.moveCamera(update);
+        }
+        else {
+            LatLng currentLatLng;
+            currentLatLng = new LatLng(latitude, longitude);
+            // Make CameraUpdate object to represent the movement of the camera to LatLng and zoom of 12-ish [2.0 - 21.0](Lowest to Highest Zoom).
+            CameraUpdate update;
+            update = CameraUpdateFactory.newLatLngZoom(currentLatLng, 12);
+            mMap.moveCamera(update);
+        }
+
     }
 
     /**

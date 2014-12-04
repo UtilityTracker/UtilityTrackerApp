@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TabHost;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,15 @@ public class HomeActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Report reportToOpen = (Report) parent.getAdapter().getItem((int) id);
                 Intent intent = new Intent().setClass(reportActivityContext, editReportActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("outageID", reportToOpen.typeSpecificUniqueID);
-                b.putString("tableToSearch", reportToOpen.type);
-                intent.putExtras(b);
-                startActivity(intent);
+
+                MainActivity ta = (MainActivity) getParent();
+                TabHost tabHost = ta.getTabHost();
+
+                ta.mapsIntent.putExtra("latitude", reportToOpen.lattitude);
+                ta.mapsIntent.putExtra("longitude", reportToOpen.longitude);
+
+
+                tabHost.setCurrentTab(1);
             }
         });
 
