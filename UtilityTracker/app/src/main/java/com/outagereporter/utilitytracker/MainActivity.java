@@ -8,10 +8,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.widget.CheckBox;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.Random;
 public class MainActivity extends TabActivity {
 
@@ -21,6 +23,20 @@ public class MainActivity extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // FIX FOR HW MENU BUTTONS
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class
+                    .getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+        }
+        //
+
         TabHost tabHost = getTabHost();
 
         Intent homeIntent = new Intent().setClass(this, HomeActivity.class);
@@ -68,6 +84,9 @@ public class MainActivity extends TabActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
+        super.onCreateOptionsMenu(menu);
+
         SharedPreferences settings = getSharedPreferences("UtilityTrackerPreferences", 0);
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -246,7 +265,7 @@ public class MainActivity extends TabActivity {
 
 
         }
-        MapNotificationCenterSingleton.getInstance().update();
+        //MapNotificationCenterSingleton.getInstance().update();
 
 
         return super.onOptionsItemSelected(item);
