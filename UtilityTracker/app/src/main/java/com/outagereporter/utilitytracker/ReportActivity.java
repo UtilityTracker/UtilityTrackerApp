@@ -41,32 +41,39 @@ public class ReportActivity extends Activity {
 
 
     public void refreshList(){
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                reportList = new ArrayList<>();
+                if (settings.getBoolean("internetFilter", false)) {
+                    reportList.addAll(database.getInternetArray(settings.getInt("userID", -1)));
 
-        reportList = new ArrayList<>();
-        if (settings.getBoolean("internetFilter", false)) {
-            reportList.addAll(database.getInternetArray(settings.getInt("userID", -1)));
-
-        }
-        if (settings.getBoolean("electricityFilter", false)) {
-            reportList.addAll(database.getElectricityArray(settings.getInt("userID", -1)));
-        }
-        if (settings.getBoolean("waterFilter", false)) {
-            reportList.addAll(database.getWaterArray(settings.getInt("userID", -1)));
-        }
-        if (settings.getBoolean("gasFilter", false)) {
-            reportList.addAll(database.getGasArray(settings.getInt("userID", -1)));
-        }
-        if (settings.getBoolean("phoneFilter", false)) {
-            reportList.addAll(database.getPhoneArray(settings.getInt("userID", -1)));
-        }
+                }
+                if (settings.getBoolean("electricityFilter", false)) {
+                    reportList.addAll(database.getElectricityArray(settings.getInt("userID", -1)));
+                }
+                if (settings.getBoolean("waterFilter", false)) {
+                    reportList.addAll(database.getWaterArray(settings.getInt("userID", -1)));
+                }
+                if (settings.getBoolean("gasFilter", false)) {
+                    reportList.addAll(database.getGasArray(settings.getInt("userID", -1)));
+                }
+                if (settings.getBoolean("phoneFilter", false)) {
+                    reportList.addAll(database.getPhoneArray(settings.getInt("userID", -1)));
+                }
 
 
-        ReportAdapter reportAdapter = new ReportAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                reportList
-        );
-        reportlistview.setAdapter(reportAdapter);
+                ReportAdapter reportAdapter = new ReportAdapter(
+                        reportActivityContext,
+                        android.R.layout.simple_list_item_1,
+                        reportList
+                );
+                reportlistview.setAdapter(reportAdapter);
+            }
+
+        };
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.run();
 
 
 

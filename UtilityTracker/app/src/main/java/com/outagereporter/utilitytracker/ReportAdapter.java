@@ -48,6 +48,7 @@ public class ReportAdapter extends ArrayAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
         // 1. Create inflater
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,6 +59,9 @@ public class ReportAdapter extends ArrayAdapter {
         // 3. Get the two text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.Outage_type);
         TextView valueView = (TextView) rowView.findViewById(R.id.Location);
+
+
+
 
         Geocoder geocoder = new Geocoder(context,Locale.getDefault());
 

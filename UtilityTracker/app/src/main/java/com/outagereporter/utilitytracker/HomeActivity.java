@@ -33,29 +33,7 @@ public class HomeActivity extends Activity {
         currentOutages = new ArrayList();
         reportActivityContext = this;
 
-        if (settings.getBoolean("internetFilter", false)) {
-            currentOutages.addAll(database.getInternetArray(true));
-
-        }
-        if (settings.getBoolean("electricityFilter", false)) {
-            currentOutages.addAll(database.getElectricityArray(true));
-        }
-        if (settings.getBoolean("waterFilter", false)) {
-            currentOutages.addAll(database.getWaterArray(true));
-        }
-        if (settings.getBoolean("gasFilter", false)) {
-            currentOutages.addAll(database.getGasArray(true));
-        }
-        if (settings.getBoolean("phoneFilter", false)) {
-            currentOutages.addAll(database.getPhoneArray(true));
-        }
-
-        ReportAdapter reportAdapter = new ReportAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                currentOutages
-        );
-        listview.setAdapter(reportAdapter);
+        refreshList();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Report reportToOpen = (Report) parent.getAdapter().getItem((int) id);
@@ -71,30 +49,41 @@ public class HomeActivity extends Activity {
 
     }
     public void refreshList(){
-        currentOutages = new ArrayList();
-        if (settings.getBoolean("internetFilter", false)) {
-            currentOutages.addAll(database.getInternetArray(true));
+        Thread thread = new Thread(){
 
-        }
-        if (settings.getBoolean("electricityFilter", false)) {
-            currentOutages.addAll(database.getElectricityArray(true));
-        }
-        if (settings.getBoolean("waterFilter", false)) {
-            currentOutages.addAll(database.getWaterArray(true));
-        }
-        if (settings.getBoolean("gasFilter", false)) {
-            currentOutages.addAll(database.getGasArray(true));
-        }
-        if (settings.getBoolean("phoneFilter", false)) {
-            currentOutages.addAll(database.getPhoneArray(true));
-        }
+            @Override
+            public void run(){
+                currentOutages = new ArrayList();
+                if (settings.getBoolean("internetFilter", false)) {
+                    currentOutages.addAll(database.getInternetArray(true));
 
-        ReportAdapter reportAdapter = new ReportAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                currentOutages
-        );
-        listview.setAdapter(reportAdapter);
+                }
+                if (settings.getBoolean("electricityFilter", false)) {
+                    currentOutages.addAll(database.getElectricityArray(true));
+                }
+                if (settings.getBoolean("waterFilter", false)) {
+                    currentOutages.addAll(database.getWaterArray(true));
+                }
+                if (settings.getBoolean("gasFilter", false)) {
+                    currentOutages.addAll(database.getGasArray(true));
+                }
+                if (settings.getBoolean("phoneFilter", false)) {
+                    currentOutages.addAll(database.getPhoneArray(true));
+                }
+
+                ReportAdapter reportAdapter = new ReportAdapter(
+                        reportActivityContext,
+                        android.R.layout.simple_list_item_1,
+                        currentOutages
+                );
+                listview.setAdapter(reportAdapter);
+            }
+
+
+        };
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.run();
+
     }
 
     @Override
