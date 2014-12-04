@@ -12,6 +12,7 @@ public class Report {
     public int startDateUTC;
     public int resolutionDateUTC;
     public int typeSpecificUniqueID;
+    public String address;
 
 
     Report(double newLatitude, double newLongitude, int user, String newType, int newResolved, int newStartDateUTC, int newresolutionDateUTC, int newTypeSpecificUniqueID){

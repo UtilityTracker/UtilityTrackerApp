@@ -23,6 +23,7 @@ public class ReportAdapter extends ArrayAdapter {
     private ArrayList<Report> reportList;
     private Geocoder geocoder;
     private static LayoutInflater inflater = null;
+    List<Address> addresses = null;
 
     public ReportAdapter (Context context, int textViewResourceId, ArrayList<Report> _reportList){
         super(context, textViewResourceId, _reportList);
@@ -31,6 +32,16 @@ public class ReportAdapter extends ArrayAdapter {
         try{
 
             this.reportList = _reportList;
+            for (int i=0; i<reportList.size(); i++){
+                try {
+                    addresses = geocoder.getFromLocation(reportList.get(i).lattitude, reportList.get(i).longitude, 1);
+                    reportList.get(i).address = addresses.get(0).getAddressLine(0) + " " + addresses.get(0).getAddressLine(1);
+                }
+                catch (Exception e){
+
+                }
+
+            }
 
 
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,28 +72,9 @@ public class ReportAdapter extends ArrayAdapter {
         // 3. Get the two text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.Outage_type);
         TextView valueView = (TextView) rowView.findViewById(R.id.Location);
+        valueView.setText(reportList.get(position).address);
 
-
-
-
-
-
-        List<Address> addresses = null;
-
-        try {
-            addresses = geocoder.getFromLocation(reportList.get(position).lattitude, reportList.get(position).longitude, 1);
-        }
-        catch (Exception e){
-
-        }
-
-
-
-        // 4. Set the text for textView
-
-        if(addresses != null){
-            valueView.setText(addresses.get(0).getAddressLine(0) + " " + addresses.get(0).getAddressLine(1));
-        }
+        
 
 
         labelView.setText(reportList.get(position).type);
